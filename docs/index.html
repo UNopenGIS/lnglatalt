@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>lnglatalt by Smart Maps Group</title>
+  <script src="https://cdn.tailwindcss.com/3.4.5"></script>
+</head>
+<body class="min-h-screen flex items-center justify-center bg-gray-100">
+  <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+    <h1 class="text-2xl font-bold mb-4">Your Current Location</h1>
+    <p id="latitude" class="text-gray-700 mb-2">Latitude: Fetching...</p>
+    <p id="longitude" class="text-gray-700 mb-2">Longitude: Fetching...</p>
+    <p id="altitude" class="text-gray-700 mb-2">Altitude: Fetching...</p>
+    <p id="error" class="text-red-500"></p>
+  </div>
+
+  <script>
+    function displayPosition(position) {
+      const lat = position.coords.latitude.toFixed(6);
+      const lon = position.coords.longitude.toFixed(6);
+      const alt = position.coords.altitude ? position.coords.altitude.toFixed(6) : 'Not available';
+
+      document.getElementById('latitude').textContent = `Latitude: ${lat}`;
+      document.getElementById('longitude').textContent = `Longitude: ${lon}`;
+      document.getElementById('altitude').textContent = `Altitude: ${alt}`;
+    }
+
+    function showError(error) {
+      document.getElementById('error').textContent = `Error: ${error.message}`;
+    }
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(displayPosition, showError);
+    } else {
+      document.getElementById('error').textContent = "Geolocation is not supported by this browser.";
+    }
+  </script>
+</body>
+</html>
